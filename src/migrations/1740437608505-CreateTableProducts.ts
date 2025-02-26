@@ -38,6 +38,11 @@ export class CreateTableProducts1740437608505 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
+                        name: "branches_id",
+                        type: "int",
+                        isNullable: false,
+                    },
+                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "CURRENT_TIMESTAMP",

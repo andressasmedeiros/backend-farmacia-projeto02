@@ -31,11 +31,18 @@ export class CreateTableUsers1740437555940 implements MigrationInterface {
                         type: "varchar",
                         length: "150",
                         isNullable: false,
+                        isUnique: true,
+                    },
+                    {
+                        name: "password_hash",
+                        type: "varchar",
+                        length: "150",
+                        isNullable: false
                     },
                     {
                         name: "status",
                         type: "boolean",
-                        default: false,
+                        default: true,
                     },
                     {
                         name: "created_at",

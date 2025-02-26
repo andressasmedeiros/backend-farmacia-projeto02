@@ -18,12 +18,16 @@ export class CreateTableBranches1740437570915 implements MigrationInterface {
                         name: "full_address",
                         type: "varchar",
                         length: "255",
-                        isNullable: false,
                     },
                     {
                         name: "document",
                         type: "varchar",
                         length: "30",
+                        isNullable: false,
+                    },
+                    {
+                        name: "users_id",
+                        type: "int",
                         isNullable: false,
                     },
                     {

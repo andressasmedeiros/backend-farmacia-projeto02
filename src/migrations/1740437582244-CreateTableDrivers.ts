@@ -26,6 +26,11 @@ export class CreateTableDrivers1740437582244 implements MigrationInterface {
                             isNullable: false,
                         },
                         {
+                            name: "users_id",
+                            type: "int",
+                            isNullable: false,
+                        },
+                        {
                             name: "created_at",
                             type: "timestamp",
                             default: "CURRENT_TIMESTAMP",

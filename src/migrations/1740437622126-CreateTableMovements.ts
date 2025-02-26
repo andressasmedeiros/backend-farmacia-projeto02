@@ -27,6 +27,16 @@ export class CreateTableMovements1740437622126 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
+                        name: "product_id",
+                        type: "int",
+                        isNullable: false,
+                    },
+                    {
+                        name: "destination_branch_id",
+                        type: "int",
+                        isNullable: false,
+                    },
+                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "CURRENT_TIMESTAMP",
