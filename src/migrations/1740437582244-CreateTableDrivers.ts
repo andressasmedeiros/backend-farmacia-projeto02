@@ -17,7 +17,6 @@ export class CreateTableDrivers1740437582244 implements MigrationInterface {
                             name: "full_address",
                             type: "varchar",
                             length: "255",
-                            isNullable: false,
                         },
                         {
                             name: "document",

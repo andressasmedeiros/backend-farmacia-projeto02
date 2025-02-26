@@ -17,7 +17,7 @@ export enum MovementStatus {
 }
 
 @Entity("movements")
-export class Movement {
+export class Movements {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -39,9 +39,9 @@ export class Movement {
     @JoinColumn({ name: "destination_branch_id" })
     destinationBranches: Branches;
 
-    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date;
+    @Column({ default: new Date(), name: "created_at" })
+    createdAt: Date;
 
-    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
-    updated_at: Date;
+    @Column({ default: new Date(), name: "updated_at" })
+    updatedAt: Date;
 }

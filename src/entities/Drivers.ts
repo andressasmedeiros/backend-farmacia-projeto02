@@ -2,21 +2,21 @@ import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Upd
 import { User } from "./User";
 
 @Entity("drivers")
-export class Driver {
+export class Drivers {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "varchar", length: 255 })
-    full_address: string;
+    @Column({ type: "varchar", length: 255, name: "full_address" })
+    fullAddress: string;
 
     @Column({ type: "varchar", length: 30 })
     document: string;
 
-    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date;
+    @Column({ default: new Date(), name: "created_at" })
+    createdAt: Date;
 
-    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
-    updated_at: Date;
+    @Column({ default: new Date(), name: "updated_at" })
+    updatedAt: Date;
 
     @ManyToOne(() => User, (user) => user.drivers, { onDelete: "CASCADE" })
     @JoinColumn({ name: "users_id" })
