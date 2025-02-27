@@ -8,12 +8,12 @@ export class CreateRelations1740613847742 implements MigrationInterface {
                 name: 'user_roles',
                 columns: [
                     {
-                        name: 'userId',
+                        name: 'user_id',
                         type: 'int',
                         isPrimary: true
                     },
                     {
-                        name: 'roleId',
+                        name: 'role_id',
                         type: 'int',
                         isPrimary: true
                     }
@@ -27,12 +27,12 @@ export class CreateRelations1740613847742 implements MigrationInterface {
                 name: 'permission_role',
                 columns: [
                     {
-                        name: 'permissionId',
+                        name: 'permission_id',
                         type: 'int',
                         isPrimary: true
                     },
                     {
-                        name: 'roleId',
+                        name: 'role_id',
                         type: 'int',
                         isPrimary: true
                     }

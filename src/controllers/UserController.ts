@@ -53,9 +53,9 @@ class UserController {
       }
 
       const salt = await bcrypt.genSalt(10);
-      let senhaCriptografada = await bcrypt.hash(password, salt);
+      let passwordHash = await bcrypt.hash(password, salt);
 
-      const user = this.userRepository.create({ name, email, passwordHash: password, profile });
+      const user = this.userRepository.create({ name, email, passwordHash, profile });
       await this.userRepository.save(user);
 
       if (Profile.DRIVER === profile) {

@@ -1,7 +1,11 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./Role";
 
-@Entity()
+export enum Permissions {
+    CRIAR_USUARIO = 'CRIAR_USUARIO'
+  }
+
+@Entity("permissions")
 export class Permission {
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,10 +13,10 @@ export class Permission {
     @Column({unique: true})
     description: string;
 
-    @Column({default: new Date()})
+    @Column({ default: new Date(), name: "created_at" })
     createdAt: Date;
 
-    @Column({nullable: true})
+    @Column({ default: new Date(), name: "updated_at" })
     updatedAt: Date;
 
     @ManyToMany(() => Role, (role) => role.permissions)
