@@ -20,12 +20,12 @@ export class CreateTablePermissions1740613245382 implements MigrationInterface {
                         isUnique: true
                     },
                     {
-                        name: 'createdAt',
+                        name: 'created_at',
                         type: 'timestamp',
                         default: 'now()'
                     },
                     {
-                        name: 'updatedAt',
+                        name: 'updated_at',
                         type: 'timestamp',
                         isNullable: true
                     }

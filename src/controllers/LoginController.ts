@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import { AppDataSource } from "../data-source";
 import PayloadJwt from "../classes/PayloadJwt";
-import { profile } from "console";
 
 class LoginController {
 
@@ -50,7 +49,7 @@ class LoginController {
               }
           
               const valido = await bcrypt.compare(password, user.passwordHash);
-          
+              console.log(password, valido)
               if (valido) {
                 const chaveSecretaJwt = process.env.JWT_SECRET ?? ""
 

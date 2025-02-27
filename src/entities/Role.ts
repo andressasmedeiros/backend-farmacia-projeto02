@@ -2,26 +2,28 @@ import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "t
 import { User } from "./User";
 import { Permission } from "./Permission";
 
-@Entity()
+@Entity("roles")
 export class Role {
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     description: string;
 
-    @Column({default: new Date()})
+    @Column({ default: new Date(), name: "created_at" })
     createdAt: Date;
 
-    @Column({nullable: true})
+    @Column({ default: new Date(), name: "updated_at" })
     updatedAt: Date;
 
     @ManyToMany(() => User, (user) => user.roles)
-    @JoinTable({name: "user_roles"})
-    users: User[]
+    users: User[];
 
     @ManyToMany(() => Permission, (permission) => permission.roles)
-    @JoinTable({name: "permission_role"})
-    permissions: Permission[]
+    @JoinTable({
+        name: "permission_role", joinColumn: { name: "role_id", referencedColumnName: "id" },
+        inverseJoinColumn: { name: "permission_id", referencedColumnName: "id" },
+    })
+    permissions: Permission[];
 }
