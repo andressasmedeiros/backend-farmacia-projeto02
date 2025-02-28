@@ -2,7 +2,9 @@ import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "t
 import { Role } from "./Role";
 
 export enum Permissions {
-    CRIAR_USUARIO = 'CRIAR_USUARIO'
+    CRIAR_USUARIO = 'CRIAR_USUARIO',
+    LISTAR_USUARIO = 'LISTAR_USUARIO',
+    LISTAR_USUARIO_POR_ID = 'LISTAR_USUARIO_POR_ID'
   }
 
 @Entity("permissions")

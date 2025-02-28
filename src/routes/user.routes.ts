@@ -7,5 +7,7 @@ const userRouter = Router();
 
 const userController = new UserController();
 userRouter.post("/", authenticate([Permissions.CRIAR_USUARIO]), userController.create )
+userRouter.get("/", authenticate([Permissions.LISTAR_USUARIO]), userController.getAll )
+userRouter.put("/:id", authenticate([Permissions.LISTAR_USUARIO_POR_ID]), userController.getById )
 
 export default userRouter;

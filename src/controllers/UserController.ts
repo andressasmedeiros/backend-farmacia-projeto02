@@ -76,8 +76,32 @@ class UserController {
     }
   };
 
+
   isValidProfile = (profile: string) => {
     return Object.values(Profile).includes(profile as Profile);
+  }
+
+  getAll = async (req: Request, res: Response) => {
+    try {
+      const { profile } = req.query;
+
+      if (profile && !Object.values(Profile).includes(profile as Profile)) {
+        res.status(400).json({ message: "Perfil inválido." });
+        return;
+      }
+
+      const users = await this.userRepository.find({
+        where: profile ? { profile: profile as Profile } : {}, 
+        select: ["id", "name", "status", "profile"],
+      });
+
+      res.status(200).json(users);
+      return;
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
+      res.status(500).json({ message: "Erro interno do servidor" });
+      return;
+    }
   }
 }
 
