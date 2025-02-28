@@ -91,7 +91,7 @@ class UserController {
       }
 
       const users = await this.userRepository.find({
-        where: profile ? { profile: profile as Profile } : {}, 
+        where: profile ? { profile: profile as Profile } : {},
         select: ["id", "name", "status", "profile"],
       });
 
@@ -99,6 +99,97 @@ class UserController {
       return;
     } catch (error) {
       console.error("Erro ao buscar usuários:", error);
+      res.status(500).json({ message: "Erro interno do servidor" });
+      return;
+    }
+  }
+
+  getById = async (req: Request, res: Response) => {
+    try {
+      const user = await this.userRepository.findOne({
+        where: {
+          id: Number(req.params.id),
+        },
+      });
+
+      if (!user) {
+        res.status(204).json({});
+        return;
+      }
+      let fullAddress = null;
+      if (user.drivers) {
+        fullAddress = user.drivers[0].fullAddress;
+      } else if (user.branches) {
+        fullAddress = user.branches.fullAddress;
+      }
+      res.status(200).json({
+        id: user.id,
+        name: user.name,
+        status: user.status,
+        full_address: fullAddress,
+        profile: user.profile
+      })
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      res.status(500).json({ message: "Erro interno do servidor" });
+      return;
+    }
+  }
+
+  putById = async (req: Request, res: Response) => {
+    try {
+      const { name, email, password, full_address, id, created_at, updated_at, status, profile } = req.body;
+
+      if (id || created_at || updated_at || status || profile) {
+        res.status(401).json({ message: "Não é permitido alterar id, created_at, updated_at, status, profile" });
+        return;
+      }
+
+      const user = await this.userRepository.findOne({
+        where: {
+          id: Number(req.params.id),
+        },
+        relations: ["drivers", "branches"],
+      });
+
+      if (!user) {
+        res.status(204).json({});
+        return;
+      }
+
+      if (user.profile === Profile.ADMIN && full_address) {
+        res.status(400).json({ message: "Administradores não possuem endereço." });
+        return;
+      }
+
+      user.name = name || user.name;
+      user.email = email || user.email;
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        user.passwordHash = await bcrypt.hash(password, salt);
+      }
+      if (user.drivers.length > 0) {
+        user.drivers[0].fullAddress = full_address || user.drivers[0].fullAddress;
+      } else if (user.branches) {
+        user.branches.fullAddress = full_address || user.branches.fullAddress;
+      }
+
+      await this.userRepository.save(user);
+      let fullAddress = null;
+      if (user.drivers.length > 0) {
+        fullAddress = user.drivers[0].fullAddress;
+      } else if (user.branches) {
+        fullAddress = user.branches.fullAddress;
+      }
+      res.status(200).json({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        full_address: fullAddress
+      })
+    }
+    catch (error) {
+      console.error("Erro ao atualizar usuário:", error);
       res.status(500).json({ message: "Erro interno do servidor" });
       return;
     }
