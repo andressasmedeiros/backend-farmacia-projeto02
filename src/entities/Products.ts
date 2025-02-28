@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToMany } from "typeorm";
 import { Branches } from "./Branches";
 import { Movements } from "./Movements";
 
@@ -23,9 +23,8 @@ export class Products {
     @JoinColumn({ name: "branches_id" })
     branch: Branches;
 
-    @ManyToOne(() => Movements, (movements) => movements.product, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "product_id" })
-    movements: Movements;
+    @OneToMany(() => Movements, (movements) => movements.product, { onDelete: "CASCADE" })
+    movements: Movements[];
 
     @Column({ default: new Date(), name: "created_at" })
     createdAt: Date;

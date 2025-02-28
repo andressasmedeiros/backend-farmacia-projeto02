@@ -12,6 +12,7 @@ import { handleError } from "./middlewares/handleError";
 
 import loginRouter from "./routes/login.routes";
 import logger from "./config/winston";
+import productsRouter from "./routes/products.routes";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json()); // Permite que o express entenda JSON
 
 app.use("/users", userRouter);
 app.use("/login", loginRouter);
+app.use("/products", productsRouter);
 
 app.get("/env", (req, res) => {
   res.json({

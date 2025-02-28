@@ -5,11 +5,13 @@ import { AppDataSource } from "../data-source";
 import bcrypt from "bcrypt";
 import { Drivers } from "../entities/Drivers";
 import { Branches } from "../entities/Branches";
+import { Role } from "../entities/Role";
 
 class UserController {
   private userRepository = AppDataSource.getRepository(User);
   private driversRepository = AppDataSource.getRepository(Drivers);
   private branchesRepository = AppDataSource.getRepository(Branches);
+  private roleRepository = AppDataSource.getRepository(Role);
 
 
   create = async (req: Request, res: Response) => {
@@ -61,11 +63,31 @@ class UserController {
       if (Profile.DRIVER === profile) {
         const driver = this.driversRepository.create({ document, fullAddress, user });
         await this.driversRepository.save(driver);
+
+        const role = await this.roleRepository.findOne({ where: { description: "DRIVER" } });
+        if (role) {
+          user.roles = [role];
+          await this.userRepository.save(user);
+        }
       }
 
       if (Profile.BRANCH === profile) {
         const branches = this.branchesRepository.create({ document, fullAddress, user });
         await this.branchesRepository.save(branches);
+
+        const role = await this.roleRepository.findOne({ where: { description: "BRANCH" } });
+        if (role) {
+          user.roles = [role];
+          await this.userRepository.save(user);
+        }
+      }
+
+      if (profile.ADMIN === profile) {
+        const role = await this.roleRepository.findOne({ where: { description: "ADMIN" } });
+        if (role) {
+          user.roles = [role];
+          await this.userRepository.save(user);
+        }
       }
 
       res.status(201).json({ name, profile })
@@ -190,6 +212,32 @@ class UserController {
     }
     catch (error) {
       console.error("Erro ao atualizar usuário:", error);
+      res.status(500).json({ message: "Erro interno do servidor" });
+      return;
+    }
+  }
+
+  patchById = async (req: Request, res: Response) => {
+    try {
+      const { status } = req.body;
+
+      const user = await this.userRepository.findOne({
+        where: {
+          id: Number(req.params.id),
+        },
+      });
+
+      if (!user) {
+        res.status(204).json({});
+        return;
+      }
+
+      user.status = status || user.status;
+      await this.userRepository.save(user);
+
+      res.status(200).json({ status: user.status, message: "Status atualizado com sucesso." });
+    } catch (error) {
+      console.error("Erro ao atualizar status do usuário:", error);
       res.status(500).json({ message: "Erro interno do servidor" });
       return;
     }
