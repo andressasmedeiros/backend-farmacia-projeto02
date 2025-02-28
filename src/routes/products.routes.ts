@@ -6,6 +6,7 @@ import ProductsController from "../controllers/ProductsController";
 const productsRouter = Router();
 
 const productsController = new ProductsController();
-productsRouter.post("/", authenticate([Permissions.CADASTRAR_PRODUTO]), productsController.create )
+productsRouter.post("/", authenticate([Permissions.CADASTRAR_PRODUTO]), productsController.create ),
+productsRouter.get("/", authenticate([Permissions.CADASTRAR_PRODUTO]), productsController.getAll )
 
 export default productsRouter;
