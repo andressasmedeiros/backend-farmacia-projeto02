@@ -24,7 +24,7 @@ const authenticateById = () => {
                     return;
                 }
             });
-            
+
             if (!hasPermission && userIdFromToken !== userIdFromParams) {
                 res.status(401).json({ message: "Usuário não possui autorização para acessar este recurso!" });
                 return;

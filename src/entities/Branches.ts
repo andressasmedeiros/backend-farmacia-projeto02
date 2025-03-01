@@ -20,7 +20,7 @@ export class Branches {
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.branches, { nullable: false, onDelete: 'CASCADE' })
-  @JoinColumn({name: "users_id"})
+  @JoinColumn({ name: "users_id" })
   user: User;
 
   @OneToMany(() => Products, (products) => products.branch)

@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Products } from "./Products";
 import { Branches } from "./Branches";
+import { Drivers } from "./Drivers";
 
 export enum MovementStatus {
     PENDING = "PENDING",
@@ -34,6 +35,10 @@ export class Movements {
     @ManyToOne(() => Products, (products) => products.movements, { onDelete: "CASCADE" })
     @JoinColumn({ name: "product_id" })
     product: Products;
+
+    @ManyToOne(() => Drivers, { nullable: true, onDelete: "SET NULL" })
+    @JoinColumn({ name: "driver_id" })
+    driver?: Drivers;
 
     @ManyToOne(() => Branches, (branches) => branches.movements, { onDelete: "CASCADE" })
     @JoinColumn({ name: "destination_branch_id" })

@@ -45,7 +45,6 @@ class ProductsController {
         try {
             const branch = await this.getBranch(req, res);
             const branchId = branch?.id;
-            console.log(branch);
             const productsRepository = AppDataSource.getRepository(Products);
             const products = await productsRepository.find({
                 where: { branch: { id: branchId } },
