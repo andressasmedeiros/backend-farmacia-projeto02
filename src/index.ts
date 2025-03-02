@@ -10,8 +10,10 @@ import userRouter from "./routes/user.routes";
 
 import { handleError } from "./middlewares/handleError";
 
-import authRouter from "./routes/auth.routes";
+import loginRouter from "./routes/login.routes";
 import logger from "./config/winston";
+import productsRouter from "./routes/products.routes";
+import movementsRouter from "./routes/movements.routes";
 
 const app = express();
 
@@ -20,7 +22,9 @@ app.use(cors()); // Permite que o express entenda requisições de outros domín
 app.use(express.json()); // Permite que o express entenda JSON
 
 app.use("/users", userRouter);
-app.use("/login", authRouter);
+app.use("/login", loginRouter);
+app.use("/products", productsRouter);
+app.use("/movements", movementsRouter);
 
 app.get("/env", (req, res) => {
   res.json({
